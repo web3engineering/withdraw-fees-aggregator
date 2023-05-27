@@ -25,7 +25,20 @@ export const getFees = async (apiKey, secretKey) => {
     const response = await runRequest("GET", path, apiKey, secretKey, params)
 
     // Filtering and unifying
-    const interestingCoins = ["ETH", "BNB", "ATOM", "DOT", "USDT", "USDC", "DAI", "SOL", "BUSD", "MATIC", "PHANTOM", "AVAX"]
+    const interestingCoins = [
+        "ATOM",
+        "AVAX",
+        "BNB", 
+        "BUSD",
+        "DAI",
+        "ETH",
+        "FTM",
+        "DOT",
+        "MATIC",
+        "SOL",
+        "USDT",
+        "USDC",
+    ]
 
     const extractFees = (coinInfo, networks) => {
         return coinInfo.networkList.filter(n => {
@@ -44,6 +57,8 @@ export const getFees = async (apiKey, secretKey) => {
             if (coinInfo.coin === "ATOM") return extractFees(coinInfo, ["ATOM"])
             if (coinInfo.coin === "SOL") return extractFees(coinInfo, ["SOL"])
             if (coinInfo.coin === "AVAX") return extractFees(coinInfo, ["AVAX"])
+            if (coinInfo.coin === "MATIC") return extractFees(coinInfo, ["MATIC"])
+            if (coinInfo.coin === "FTM") return extractFees(coinInfo, ["FTM"])
 
             return coinInfo.networkList.filter(n => {
                 return n.withdrawEnable
