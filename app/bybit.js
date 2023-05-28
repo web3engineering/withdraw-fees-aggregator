@@ -35,7 +35,7 @@ export const getFees = async (API_KEY, SECRET_KEY) => {
     const getAll = (coin) => {
         const record = data.result.rows.filter(r => r.coin === coin)
         if (record.length !== 1) throw "ByBit No Such Coin"
-        return record[0].chains.map(c => [`${coin}-${c.chain}`, c.withdrawFee])
+        return record[0].chains.filter(c => c.withdrawFee.length > 0).map(c => [`${coin}-${c.chain}`, c.withdrawFee])
     }
 
     const records = []
