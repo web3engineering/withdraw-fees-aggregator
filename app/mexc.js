@@ -28,7 +28,7 @@ export const getFees = async (API_KEY, SECRET_KEY) => {
             .map(x => x.networkList)
             .flatMap(x => x)
             .map(x => ([
-                `${x.coin} - ${x.network}`,
-                parseFloat(x.withdrawFee)
+                `${x.coin}-${x.network}`,
+                x.withdrawFee
             ]))
 }
