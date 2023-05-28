@@ -1,4 +1,5 @@
 import * as cryptojs from "crypto-js";
+const fs = require('fs')
 
 const runRequest = async(method, path, apiKey, secretKey, params) => {
     if (params.length > 0) params += '&';
@@ -38,6 +39,7 @@ export const getFees = async (apiKey, secretKey) => {
         "SOL",
         "USDT",
         "USDC",
+        "ONE",
     ]
 
     const extractFees = (coinInfo, networks) => {
@@ -47,6 +49,7 @@ export const getFees = async (apiKey, secretKey) => {
             n => [`${coinInfo.coin}-${n.network}`, n.withdrawFee]
         )
     }
+    fs.writeFileSync('./binance.dump.js', JSON.stringify(response, undefined, 4))
     return response.filter(
         coin => interestingCoins.indexOf(coin['coin']) > -1
     ).map(
@@ -59,6 +62,7 @@ export const getFees = async (apiKey, secretKey) => {
             if (coinInfo.coin === "AVAX") return extractFees(coinInfo, ["AVAX"])
             if (coinInfo.coin === "MATIC") return extractFees(coinInfo, ["MATIC"])
             if (coinInfo.coin === "FTM") return extractFees(coinInfo, ["FTM"])
+            if (coinInfo.coin === "ONE") return extractFees(coinInfo, ["ONE"])
 
             return coinInfo.networkList.filter(n => {
                 return n.withdrawEnable

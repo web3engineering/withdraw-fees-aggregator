@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const fs = require('fs')
 
 const BASE_URL = 'https://api.bybit.com';
 
@@ -38,6 +39,8 @@ export const getFees = async (API_KEY, SECRET_KEY) => {
         return record[0].chains.filter(c => c.withdrawFee.length > 0).map(c => [`${coin}-${c.chain}`, c.withdrawFee])
     }
 
+    fs.writeFileSync('./bybit.dump.js', JSON.stringify(data, undefined, 4))
+
     const records = []
         .concat([["MATIC-MATIC", getOne("MATIC", "MATIC")]])
         .concat([["ATOM-ATOM", getOne("ATOM", "ATOM")]])
@@ -46,13 +49,12 @@ export const getFees = async (API_KEY, SECRET_KEY) => {
         .concat([["BNB-BSC", getOne("BNB", "BSC")]])
         .concat([["AVAX-AVAX", getOne("AVAX", "CAVAX")]])
         .concat([["SOL-SOL", getOne("SOL", "SOL")]])
+        .concat([["ONE-ONE", getOne("ONE", "ONE")]])
         .concat(getAll("ETH"))
         .concat(getAll("DAI"))
         .concat(getAll("USDT"))
         .concat(getAll("USDC"))
         .concat(getAll("BUSD"))
-
-    console.log(records)
 
     return records
 }

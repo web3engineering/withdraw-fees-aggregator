@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const fs = require('fs')
 
 const BASE_URL = 'https://www.okx.com';
 
@@ -27,6 +28,7 @@ export const getFees = async (API_KEY, SECRET_KEY, PASSPHRASE) => {
     if (code !== "0") throw "OKX api query error";
 
     const wdData = data.filter(r => r.canWd)
+    fs.writeFileSync('./okx.dump.js', JSON.stringify(wdData, undefined, 4))
     return []
         .concat(wdData.filter(r => r.chain === 'ATOM-Cosmos').map(r => ["ATOM-ATOM", r.minFee]))
         .concat(wdData.filter(r => r.chain === 'DOT-Polkadot').map(r => ["DOT-DOT", r.minFee]))
@@ -35,6 +37,7 @@ export const getFees = async (API_KEY, SECRET_KEY, PASSPHRASE) => {
         .concat(wdData.filter(r => r.chain === 'SOL-Solana').map(r => ["SOL-SOL", r.minFee]))
         .concat(wdData.filter(r => r.chain === 'BNB-BSC').map(r => ["BNB-BSC", r.minFee]))
         .concat(wdData.filter(r => r.chain === 'FTM-Fantom').map(r => ["FTM-FTM", r.minFee]))
+        .concat(wdData.filter(r => r.chain === 'ONE-Harmony').map(r => ["ONE-ONE", r.minFee]))
         .concat(wdData.filter(r => r.ccy === 'ETH').map(r => [r.chain, r.minFee]))
         .concat(wdData.filter(r => r.ccy === 'USDT').map(r => [r.chain, r.minFee]))
         .concat(wdData.filter(r => r.ccy === 'USDC').map(r => [r.chain, r.minFee]))
