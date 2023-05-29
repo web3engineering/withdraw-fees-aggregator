@@ -25,3 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+table {
+  width: 100%;
+}
+
+section.footer {
+  color: plum;
+  background-color: rgb(40,40,40);
+  text-align: center;
+  padding: 2em;
+  margin-top: 2em;
+}

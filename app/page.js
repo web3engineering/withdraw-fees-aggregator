@@ -19,20 +19,39 @@ export default async function Home() {
   const allFees = data.reduce((p, c) => p.concat(c), [])
   allFees.sort((a, b) => { return parseFloat(a[2]) - parseFloat(b[2])})
 
+  const enrichWithRef = (e) => {
+    if (e === "OKX") return (<a href='https://www.okx.com/join/8702416'>OKX</a>);
+    if (e === "ByBIT") return (<a href='https://www.bybit.com/invite?ref=N8PMO6'>ByBIT</a>);
+    if (e === "MEXC") return (<a href='https://www.mexc.com/register?inviteCode=17rk5'>MEXC</a>);
+    return e;
+  }
 
   return (
     <>
+      <p>Supported only subset of coins: ATOM, DOT, SOL, ETH, USDT, USDC, ONE, FTM.</p>
       <table>
+        <thead>
+          <tr>
+            <th>Exchange</th>
+            <th>Coin + Network</th>
+            <th>Fee (in coin)</th>
+          </tr>
+        </thead>
         <tbody>
           {allFees.map(feeInfo => (
             <tr key={`${feeInfo[0]}-${feeInfo[1]}`}>
-              <td>{feeInfo[0]}</td>
+              <td>{enrichWithRef(feeInfo[0])}</td>
               <td>{feeInfo[1]}</td>
               <td>{feeInfo[2]}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <section className="footer">
+        Built for you by Let's Code + CryptoLodes Team.
+        Please contact t.me/fz_nodes for collaborations, custom tools,
+        LayerZero and ZkSync scripts.
+      </section>
     </>
   )
 }
